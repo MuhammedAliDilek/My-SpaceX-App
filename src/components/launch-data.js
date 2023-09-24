@@ -17,16 +17,7 @@ const SpaceXLaunches = () => {
 
   useEffect(() => {
     const fetchLaunches = async () => {
-      let url = "https://api.spacexdata.com/v5/launches";
-      if (filter === "latest") {
-        url += "/latest";
-      } else if (filter === "upcoming") {
-        url += "/upcoming";
-      } else if (filter === "success") {
-        url += "?filter=status:success";
-      } else if (filter === "failed") {
-        url += "?filter=status:failed";
-      }
+      let url = `https://api.spacexdata.com/v5/launches/${filter}`;
 
       const response = await axios.get(url);
       console.log(response.data);
@@ -57,11 +48,12 @@ const SpaceXLaunches = () => {
         options={[
           { value: "latest", label: "Latest" },
           { value: "upcoming", label: "Upcoming" },
-          { value: "success", label: "Success" },
-          { value: "failed", label: "Failed" },
+          { value: "past", label: "Past launches" },
+          { value: "next", label: "Next launch" },
         ]}
         onChange={handleFilterChange}
         value={filter}
+        placeholder="Select Launches"
       />
       <ul>
         {/* Only render the list of launches if the launches variable is an array. */}

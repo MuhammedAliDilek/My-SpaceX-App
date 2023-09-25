@@ -1,7 +1,13 @@
+// This component fetches a list of SpaceX launches from the SpaceX API
+// and displays them to the user. It also allows the user to filter the
+// launches by search term and by filter option.
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactSelect from "react-select";
 
+// This component renders a list of SpaceX launches and allows the user to
+// filter them by search term and by filter option.
 const SpaceXLaunches = () => {
   const [launches, setLaunches] = useState([]);
   const [FilteredLaunches, setFilteredLaunches] = useState([]);
@@ -10,6 +16,7 @@ const SpaceXLaunches = () => {
   const [chosenFilterText, setChosenFilterText] = useState("Latest");
 
   useEffect(() => {
+    // This function fetches a list of SpaceX launches from the SpaceX API.
     const fetchLaunches = async () => {
       let url = `https://api.spacexdata.com/v5/launches/${filter}`;
 

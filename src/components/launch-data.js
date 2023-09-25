@@ -4,16 +4,9 @@ import ReactSelect from "react-select";
 
 const SpaceXLaunches = () => {
   const [launches, setLaunches] = useState([]);
+  const [FilteredLaunches, setFilteredLaunches] = useState([]);
   const [filter, setFilter] = useState("latest");
   const [search, setSearch] = useState("");
-
-  // Check the type of the launches variable before calling the filter() method.
-  const filteredLaunches =
-    launches && Array.isArray(launches)
-      ? launches.filter((launch) => {
-          return launch.name.includes(search) && launch.status === filter;
-        })
-      : [];
 
   useEffect(() => {
     const fetchLaunches = async () => {
@@ -22,6 +15,7 @@ const SpaceXLaunches = () => {
       const response = await axios.get(url);
       console.log(response.data);
       setLaunches(response.data);
+      setFilteredLaunches(response.data); //do not delete this This shows the result on the webpage
     };
 
     fetchLaunches();
@@ -32,6 +26,14 @@ const SpaceXLaunches = () => {
   };
 
   const handleInputChange = (event) => {
+    console.log(event);
+    const filtered = launches.filter((datum) => {
+      return datum.name
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase());
+    });
+    console.log("filtered", filtered);
+    setFilteredLaunches(filtered);
     setSearch(event.target.value);
   };
 
@@ -53,19 +55,30 @@ const SpaceXLaunches = () => {
         ]}
         onChange={handleFilterChange}
         value={filter}
-        placeholder="Select Launches"
+        placeholder="Filter Launches"
       />
-      <ul>
-        {/* Only render the list of launches if the launches variable is an array. */}
-        {launches && Array.isArray(launches) ? (
-          filteredLaunches.map((launch) => (
-            <li key={launch.id}>
-              <h3>{launch.name}</h3>
-              <p>Launch Date: {launch.date_local}</p>
-              <p>Rocket: {launch.rocket.name}</p>
-              <p>Mission: {launch.details}</p>
+
+      <ul className="filtered-launches">
+        <h2>Filtered Launches</h2>
+        {FilteredLaunches ? (
+          Array.isArray(FilteredLaunches) ? (
+            FilteredLaunches.map((launch) => (
+              <li key={launch.id}>
+                <h3>{launch.name}</h3>
+                <p>Launch Date: {launch.date_local}</p>
+                <p>Rocket: {launch.rocket.name}</p>
+                <p>Mission: {launch.details}</p>
+                {/* <p ngClass="launch.success ? 'success'  fail  null">Mission status is successful or failed or unknown yet: {launch.success}</p> */}
+              </li>
+            ))
+          ) : (
+            <li key={FilteredLaunches.id}>
+              <h3>{FilteredLaunches.name}</h3>
+              <p>Launch Date: {FilteredLaunches.date_local}</p>
+              <p>Rocket: {FilteredLaunches.rocket.name}</p>
+              <p>Mission: {FilteredLaunches.details}</p>
             </li>
-          ))
+          )
         ) : (
           <p>No launches found.</p>
         )}

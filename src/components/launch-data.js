@@ -7,6 +7,7 @@ const SpaceXLaunches = () => {
   const [FilteredLaunches, setFilteredLaunches] = useState([]);
   const [filter, setFilter] = useState("latest");
   const [search, setSearch] = useState("");
+  const [chosenFilterText, setChosenFilterText] = useState("Latest");
 
   useEffect(() => {
     const fetchLaunches = async () => {
@@ -15,7 +16,7 @@ const SpaceXLaunches = () => {
       const response = await axios.get(url);
       console.log(response.data);
       setLaunches(response.data);
-      setFilteredLaunches(response.data); //do not delete this This shows the result on the webpage
+      setFilteredLaunches(response.data);
     };
 
     fetchLaunches();
@@ -23,6 +24,7 @@ const SpaceXLaunches = () => {
 
   const handleFilterChange = (event) => {
     setFilter(event.value);
+    setChosenFilterText(event.label);
   };
 
   const handleInputChange = (event) => {
@@ -59,7 +61,7 @@ const SpaceXLaunches = () => {
       />
 
       <ul className="filtered-launches">
-        <h2>Filtered Launches</h2>
+        <h2>{chosenFilterText}</h2>
         {FilteredLaunches ? (
           Array.isArray(FilteredLaunches) ? (
             FilteredLaunches.map((launch) => (
@@ -68,7 +70,10 @@ const SpaceXLaunches = () => {
                 <p>Launch Date: {launch.date_local}</p>
                 <p>Rocket: {launch.rocket.name}</p>
                 <p>Mission: {launch.details}</p>
-                {/* <p ngClass="launch.success ? 'success'  fail  null">Mission status is successful or failed or unknown yet: {launch.success}</p> */}
+                <p ngClass="launch.success ? 'success'  fail  null">
+                  Mission status is successful or failed or unknown yet:{" "}
+                  {launch.success}
+                </p>
               </li>
             ))
           ) : (

@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Documentation for launch-data.js
 
-## Available Scripts
+This file contains the SpaceXLaunches component, which fetches a list of SpaceX launches from the SpaceX API and displays them to the user. The component also allows the user to filter the launches by search term and by filter option.
 
-In the project directory, you can run:
+Props:
 
-### `npm start`
+launches: An array of SpaceX launch objects.
+Methods:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+fetchLaunches: This method fetches a list of SpaceX launches from the SpaceX API.
+handleFilterChange: This method handles changes to the filter selection.
+handleInputChange: This method handles changes to the search input.
+render: This method renders the component.
+Usage:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+JavaScript
+import SpaceXLaunches from "./components/launch-data";
 
-### `npm test`
+function App() {
+return (
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<div>
+<SpaceXLaunches />
+</div>
+);
+}
 
-### `npm run build`
+export default App;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Example:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+JavaScript
+const launches = [
+{
+id: "1",
+name: "Falcon Heavy Test Flight",
+},
+{
+id: "2",
+name: "Starlink 1",
+},
+];
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<SpaceXLaunches launches={launches} />
 
-### `npm run eject`
+Documentation for fetchLaunches.test.js
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This file contains tests for the fetchLaunches function.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Tests
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The SpaceXLaunches component and the fetchLaunches function have been tested to ensure that they work as expected.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The tests for the SpaceXLaunches component cover the following functionality:
 
-## Learn More
+- Rendering a list of launches
+- Filtering the launches by search term
+- Filtering the launches by filter option
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The tests for the fetchLaunches function cover the following functionality:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Fetching a list of launches from the SpaceX API
+- Handling errors gracefully

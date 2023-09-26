@@ -1,21 +1,29 @@
+// This component fetches a list of SpaceX launches from the SpaceX API
+// and displays them to the user. It also allows the user to filter the
+// launches by search term and by filter option.
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactSelect from "react-select";
 
+// This component renders a list of SpaceX launches and allows the user to
+// filter them by search term and by filter option.
 const SpaceXLaunches = () => {
   const [launches, setLaunches] = useState([]);
   const [FilteredLaunches, setFilteredLaunches] = useState([]);
   const [filter, setFilter] = useState("latest");
   const [search, setSearch] = useState("");
+  const [chosenFilterText, setChosenFilterText] = useState("Latest");
 
   useEffect(() => {
+    // This function fetches a list of SpaceX launches from the SpaceX API.
     const fetchLaunches = async () => {
       let url = `https://api.spacexdata.com/v5/launches/${filter}`;
 
       const response = await axios.get(url);
       console.log(response.data);
       setLaunches(response.data);
-      setFilteredLaunches(response.data); //do not delete this This shows the result on the webpage
+      setFilteredLaunches(response.data);
     };
 
     fetchLaunches();
@@ -23,6 +31,7 @@ const SpaceXLaunches = () => {
 
   const handleFilterChange = (event) => {
     setFilter(event.value);
+    setChosenFilterText(event.label);
   };
 
   const handleInputChange = (event) => {
@@ -59,7 +68,7 @@ const SpaceXLaunches = () => {
       />
 
       <ul className="filtered-launches">
-        <h2>Filtered Launches</h2>
+        <h2>{chosenFilterText}</h2>
         {FilteredLaunches ? (
           Array.isArray(FilteredLaunches) ? (
             FilteredLaunches.map((launch) => (
@@ -68,7 +77,10 @@ const SpaceXLaunches = () => {
                 <p>Launch Date: {launch.date_local}</p>
                 <p>Rocket: {launch.rocket.name}</p>
                 <p>Mission: {launch.details}</p>
-                {/* <p ngClass="launch.success ? 'success'  fail  null">Mission status is successful or failed or unknown yet: {launch.success}</p> */}
+                <p ngClass="launch.success ? 'success'  fail  null">
+                  Mission status is successful or failed or unknown yet:{" "}
+                  {launch.success}
+                </p>
               </li>
             ))
           ) : (
